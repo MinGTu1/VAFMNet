@@ -1,0 +1,123 @@
+name: VAFMNet
+suffix: ~  # add suffix to saved images
+model_type: SRModel
+scale: 4
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 10
+
+datasets:
+#  test_1: # the 1st test dataset
+#    name: val_set5
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\Set5\HR
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\Set5\LR_bicubic\X4
+#    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
+#
+#  test_2: # the 2st test dataset
+#    name: val_set14
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\Set14\HR
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\Set14\LR_bicubic\X4
+#    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
+#
+#  test_3:
+#    name: BSD100
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\B100\HR
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\B100\LR_bicubic\X4
+#    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
+#
+#  test_4:
+#    name: Urban100
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\Urban100\HR
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\Urban100\LR_bicubic\X4
+#    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
+##
+#  test_5:
+#    name: Manga109
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\Manga109\HR
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\Manga109\LR_bicubic\X4
+#    filename_tmpl: '{}_LRBI_x4'
+#    io_backend:
+#      type: disk
+
+#  test_6:
+#    name: Test2K
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\test2k\HR\X4
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\test2k\LR\X4
+#    filename_tmpl: '{}'
+#    io_backend:
+#      type: disk
+#
+#  test_7:
+#    name: Test4K
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\test4k\HR\X4
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\test4k\LR\X4
+#    filename_tmpl: '{}'
+#    io_backend:
+#      type: disk
+#  test_8:
+#    name: Test8K
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\test8k\HR\X4
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\test8k\LR\X4
+#    filename_tmpl: '{}'
+#    io_backend:
+#      type: disk
+#
+#  test_9:
+#    name: DIV2K
+#    type: PairedImageDataset
+#    dataroot_gt: D:\Anaconda\envs\BasicSR\datasets\val_images\DIV2K\HR
+#    dataroot_lq: D:\Anaconda\envs\BasicSR\datasets\val_images\DIV2K\LR_bicubic\X4
+#    filename_tmpl: '{}x4'
+#    io_backend:
+#      type: disk
+  test_9:
+    name: RealSR
+    type: PairedImageDataset
+    dataroot_gt: D:\Anaconda\envs\datasets\val_images\RealSR\HR
+    dataroot_lq: D:\Anaconda\envs\datasets\val_images\RealSR\LR_bicubic
+    filename_tmpl: '{}_LR4'
+    io_backend:
+      type: disk
+
+
+# network structures
+network_g:
+  type: VAFMNet_realsr
+  dim: 48
+  n_blocks: 12
+  upscaling_factor: 4
+
+# path
+path:
+  pretrain_network_g: 
+  strict_load_g: true
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+  pbar: true
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 4
+      test_y_channel: true
+    ssim:
+      type: calculate_ssim
+      crop_border: 4
+      test_y_channel: true
